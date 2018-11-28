@@ -9,12 +9,14 @@
                 <span class="card-title">Enter a word or a phrase below:</span>
                 <br/><br/>
                 <form method="post" action="{% url 'home:process_string' %}">
-                {% csrf_token %}
-				    <div class="input-field col s6">
-          			    <input name="query" placeholder="Word or Phrase" id="textbox" type="text" class="validate">
-          				<label for="in">Search Query</label>
-       				</div>
-                    <button class="btn waves-effect grey" type="submit" name="submit" id="form_submit" value="Execute">go</button>
+                    {% csrf_token %}
+                    <div class="input-field col s6">
+                        <input name="query" placeholder="Word or Phrase" id="textbox" type="text" class="validate">
+                        <label for="in">Search Query</label>
+                    </div>
+                    <button class="btn waves-effect grey" type="submit" name="submit" id="form_submit" value="Execute">
+                        go
+                    </button>
                 </form>
                 <br/>
             </div>
@@ -24,45 +26,62 @@
 
 {% if result %}
 
-  <ul class="tabs tabs-fixed-width tab-demo z-depth-1">
+<ul class="tabs tabs-fixed-width tab-demo z-depth-1">
     <li class="tab"><a class="active" href="#df" style="color: black">DataFrame</a></li>
     <li class="tab"><a href="#pi" style="color: black">PI Chart(Sentiment)</a></li>
     <li class="tab"><a href="#ts" style="color: black">Time Series</a></li>
     <li class="tab"><a href="#users" style="color: black">Users Sources</a></li>
     <li class="tab"><a href="#rt" style="color: black">Likes and Retweets</a></li>
-  </ul>
+</ul>
 
-  <div id="df" class="col s12">
+<div id="df" class="col s12">
     <section class="section white">
-        
-            <div class="card grey">
-                <div class="card-content">
-                    <div class="white-text card-title">
-                        DataFrame:
-                    </div>
-                    <div class="white-text">
-                        {{result | safe}}
-                    </div>
+
+        <div class="card grey">
+            <div class="card-content">
+                <div class="white-text card-title">
+                    DataFrame:
+                </div>
+                <div class="white-text">
+                    {{result | safe}}
                 </div>
             </div>
-       
-    </section>
-  </div>
+        </div>
 
-  <div id="pi" class="col s12">
+    </section>
+</div>
+
+<div id="pi" class="col s12">
     <section class="section white">
         <div class="container">
             <div class="card grey">
                 <div class="card-content">
                     <div class="white-text card-title">
-                        Chart below:
+                        {{ pie_chart_title }}
                     </div>
+                    <div id="pie_chart">{{ pie_chart|safe }}</div>
+
                 </div>
             </div>
         </div>
     </section>
-  </div>
+</div>
 
+<div id="ts" class="col s12">
+    <section class="section white">
+        <div class="container">
+            <div class="card grey">
+                <div class="card-content">
+                    <div class="white-text card-title">
+                        {{ time_series_chart_title }}
+                    </div>
+                    <div id="time_series_chart">{{ time_series_chart|safe }}</div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 
 {% endif %}
 

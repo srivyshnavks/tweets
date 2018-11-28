@@ -35,7 +35,7 @@ def create_dataframe(tweets, input_text):
 
     # Adding relevant data:
     data['len'] = np.array([len(tweet.text) for tweet in tweets])
-    #data['ID'] = np.array([tweet.id for tweet in tweets])
+    # data['ID'] = np.array([tweet.id for tweet in tweets])
     data['Date'] = np.array([tweet.created_at for tweet in tweets])
     data['Source'] = np.array([tweet.source for tweet in tweets])
     data['Likes'] = np.array([tweet.favorite_count for tweet in tweets])
@@ -46,16 +46,17 @@ def create_dataframe(tweets, input_text):
 
     # Save the csv file
     csv_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'csv_files')
-    data.to_csv(os.path.join(csv_file_path, input_text+'_twitter-data.csv'), sep=',', encoding='utf-8')
+    data.to_csv(os.path.join(csv_file_path, input_text + '_twitter-data.csv'), sep=',', encoding='utf-8')
 
     return data
+
 
 def create_list_pie(tweets):
     # Creating pandas dataframe:
     data = pd.DataFrame(data=[tweet.text for tweet in tweets], columns=['Tweets'])
 
     data['Sentiment'] = np.array([analize_sentiment(tweet) for tweet in data['Tweets']])
-    #pd.set_option('display.max_colwidth', -1)
+    # pd.set_option('display.max_colwidth', -1)
     sa = list(data.Sentiment)
     sa = Counter(sa)
     sent = [i for i in sa.values()]
@@ -70,14 +71,14 @@ def clean_tweet(tweet):
     '''
     return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
 
+
 def analize_sentiment(tweet):
     '''
     Utility function to classify the polarity of a tweet
     using textblob.
     '''
     analysis = TextBlob(clean_tweet(tweet))
-    #return analysis.sentiment.polarity
-
+    # return analysis.sentiment.polarity
 
     if analysis.sentiment.polarity > 0:
         return 1
@@ -86,8 +87,10 @@ def analize_sentiment(tweet):
     else:
         return -1
 
+
 if __name__ == '__main__':
-    input_query = 'any keyword' + '-filter:retweets'
+    input_text = 'global warming'
+    input_query = input_text + '-filter:retweets'
     tweets = get_tweets(input_query)
-    create_dataframe(tweets, 'global warming')
+    create_dataframe(tweets, input_text)
     sentiment = create_list_pie(tweets)
