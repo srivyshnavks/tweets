@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import os
 from collections import Counter
+import operator
 
 consumer_key = 'GAecT7Wcv8dcW5H1OyZIVezdg'
 consumer_secret = '4Aj3UBnC6MP06436VzENCRxOwcgUI039mVNa8asFSdMbmKoNb1'
@@ -42,16 +43,27 @@ def create_dataframe(tweets, input_text):
     data['RTs'] = np.array([tweet.retweet_count for tweet in tweets])
     data['Sentiment'] = np.array([analize_sentiment(tweet) for tweet in data['Tweets']])
     pd.set_option('display.max_colwidth', -1)
-    print(data)
+    #print(data)
 
+    sa = list(data.Sentiment)
+    sa.sort()
+    sa = Counter(sa)
+    sent = [i for i in sa.values()]
+
+    source = list(data.Source)
+    source.sort()
+    users = Counter(source)
+    
+    users = sorted(users.items(), key=operator.itemgetter(1), reverse = True)
+    
     # Save the csv file
     csv_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'csv_files')
     data.to_csv(os.path.join(csv_file_path, input_text + '_twitter-data.csv'), sep=',', encoding='utf-8')
 
-    return data
+    return data, sent, users
 
 
-def create_list_pie(tweets):
+'''def create_list_pie(tweets):
     # Creating pandas dataframe:
     data = pd.DataFrame(data=[tweet.text for tweet in tweets], columns=['Tweets'])
 
@@ -62,7 +74,7 @@ def create_list_pie(tweets):
     sent = [i for i in sa.values()]
 
     return sent
-
+'''
 
 def clean_tweet(tweet):
     '''
@@ -93,4 +105,3 @@ if __name__ == '__main__':
     input_query = input_text + '-filter:retweets'
     tweets = get_tweets(input_query)
     create_dataframe(tweets, input_text)
-    sentiment = create_list_pie(tweets)

@@ -26,12 +26,20 @@
 
 {% if result %}
 
+
+<script>
+  function show_chart1(pi) {
+    document.getElementById('df').innerHTML = document.getElementById(pi).innerHTML;
+  }
+
+</script>
+
+
 <ul class="tabs tabs-fixed-width tab-demo z-depth-1">
+    <li class="tab"><span onclick="show('pi')">DataFrame</span></li>
     <li class="tab"><a class="active" href="#df" style="color: black">DataFrame</a></li>
     <li class="tab"><a href="#pi" style="color: black">PI Chart(Sentiment)</a></li>
-    <li class="tab"><a href="#ts" style="color: black">Time Series</a></li>
     <li class="tab"><a href="#users" style="color: black">Users Sources</a></li>
-    <li class="tab"><a href="#rt" style="color: black">Likes and Retweets</a></li>
 </ul>
 
 <div id="df" class="col s12">
@@ -40,7 +48,7 @@
         <div class="card grey">
             <div class="card-content">
                 <div class="white-text card-title">
-                    DataFrame:
+                    Tweets DataFrame:
                 </div>
                 <div class="white-text">
                     {{result | safe}}
@@ -57,9 +65,11 @@
             <div class="card grey">
                 <div class="card-content">
                     <div class="white-text card-title">
-                        {{ pie_chart_title }}
+                        PIE CHART
                     </div>
-                    <div id="pie_chart">{{ pie_chart|safe }}</div>
+                    <div id="pie_chart">
+                        {{ pie_chart | safe }}
+                    </div>
 
                 </div>
             </div>
@@ -67,15 +77,17 @@
     </section>
 </div>
 
-<div id="ts" class="col s12">
+<div id="users" class="col s12">
     <section class="section white">
         <div class="container">
             <div class="card grey">
                 <div class="card-content">
                     <div class="white-text card-title">
-                        {{ time_series_chart_title }}
+                        SOURCES OF TWEETS
                     </div>
-                    <div id="time_series_chart">{{ time_series_chart|safe }}</div>
+                    <div id="source_chart">
+                        {{ source_chart | safe }}
+                    </div>
 
                 </div>
             </div>
