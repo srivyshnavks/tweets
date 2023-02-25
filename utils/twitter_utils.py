@@ -21,7 +21,7 @@ api = tweepy.API(auth)
 
 
 def get_tweets(searchquery):
-    tweets = api.search(q=searchquery, count=100, lang='en', result_type='mixed')
+    tweets = api.search_30_day(label='FullArchive', query=searchquery, count=100, lang='en', result_type='mixed')
     print("Number of tweets extracted: {}\n".format(len(tweets)))
 
     for tweet in tweets:
